@@ -1,0 +1,10 @@
+from fastapi import APIRouter
+from app.schemas.ai import TextData, AIForeignData
+from app.controllers.ai import find_foreign_controller
+from typing import List
+
+router = APIRouter(prefix="/ai")
+
+@router.post("/retouch", response_model=List[AIForeignData], tags=['ai'])
+async def post_ai_retouch(request: TextData):
+    return find_foreign_controller(request)

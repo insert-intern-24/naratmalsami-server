@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from starlette.middleware.sessions import SessionMiddleware
 from app.config import settings
-from app.routers import auth as auth_router
+from app.routes import ai, auth as auth_router, file
 from app.database import engine, Base
 
 def create_tables():
@@ -16,7 +16,10 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
 
 # 인증 관련 라우터 포함 (/auth/login, /auth/callback, /auth/logout)
-app.include_router(auth_router.router, prefix="/auth", tags=["auth"])
+app.include_router(auth_router.router, tags=["auth"])
+
+app.include_router(ai.router)
+app.include_router(file.router)
 
 @app.get("/")
 async def root(request: Request):
