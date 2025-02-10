@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from models.ai_model import TextData, AIForeignData
-from controllers.ai_controller import find_foreign_controller
+from app.schemas.ai import TextData, AIForeignData
+from app.controllers.ai import find_foreign_controller
 from typing import List
 
 router = APIRouter(prefix="/ai")

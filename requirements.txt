@@ -1,1 +1,6 @@
 fastapi[standard]
+authlib
+python-dotenv
+sqlalchemy
+mysql-connector-python
+pytest

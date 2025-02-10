@@ -1,4 +1,4 @@
-from models.file_model import File
+from app.schemas.file import File
 from datetime import datetime
 from typing import List
 import uuid

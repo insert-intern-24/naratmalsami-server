@@ -1,4 +1,4 @@
-from models.ai_model import TextData, AIForeignData
+from app.schemas.ai import TextData, AIForeignData
 from typing import List
 
 def find_foreign(data: TextData) -> List[AIForeignData]:

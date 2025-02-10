@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from models.file_model import File
-from controllers.file_controller import create_file_controller, file_list_controller
+from app.schemas.file import File
+from app.controllers.file import create_file_controller, file_list_controller
 from typing import List
 
 router = APIRouter(prefix="/file")
