@@ -6,3 +6,4 @@ sqlalchemy
 mysql-connector-python
 pytest
 itsdangerous
+pydantic_settings
