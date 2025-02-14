@@ -10,6 +10,8 @@ class DiscordLogHandler(logging.Handler):
     def emit(self, record):
         try:
             log_entry = self.format(record)
+            if len(log_entry) > 2000:
+                log_entry = log_entry[:1997] + "..."
             webhook = DiscordWebhook(url=self.webhook_url, content=log_entry)
             webhook.execute()
         except Exception:
