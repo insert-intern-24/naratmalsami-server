@@ -53,4 +53,6 @@ jobs:
               -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
               -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
               -e MYSQL_URL=${{ secrets.MYSQL_URL }} \
+              -e DISCORD_WEBHOOK_GENERAL=${{ secrets.DISCORD_WEBHOOK_GENERAL }} \
+              -e DISCORD_WEBHOOK_ALERT=${{ secrets.DISCORD_WEBHOOK_ALERT }} \
               jaehwan0129/naraback:latest

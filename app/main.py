@@ -1,23 +1,20 @@
 from fastapi import FastAPI, Request
 from starlette.middleware.sessions import SessionMiddleware
 from app.config import settings
+from app.utils.logging import setup_logging
+from app.utils.lifespan import lifespan
 from app.routes import ai, auth as auth_router, file
-from app.database import engine, Base
 
-def create_tables():
-    Base.metadata.create_all(engine)
-    print("모든 테이블이 생성되었습니다.")
+# 로깅 설정
+setup_logging()
 
-# create_tables()
+app = FastAPI(lifespan=lifespan)
 
-app = FastAPI()
-
-# 세션 미들웨어 (프로덕션에서는 Redis 등 외부 스토리지 고려)
+# 세션 미들웨어 등록
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
 
-# 인증 관련 라우터 포함 (/auth/login, /auth/callback, /auth/logout)
+# API 라우터 등록
 app.include_router(auth_router.router, tags=["auth"])
-
 app.include_router(ai.router)
 app.include_router(file.router)
 
