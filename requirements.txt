@@ -7,3 +7,4 @@ mysql-connector-python
 pytest
 itsdangerous
 pydantic_settings
+discord-webhook
