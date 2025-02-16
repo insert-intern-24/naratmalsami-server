@@ -1,34 +1,20 @@
-from app.schemas.file import File
-from datetime import datetime
-from typing import List
-import uuid
+from sqlalchemy.orm import Session
+from app.schemas.file import FileCreate, FileResponse
+from app.crud import file as crud_file
 
-def create_file() -> File:
-    file_id = str(uuid.uuid4())
-    file_datetime = datetime.now().strftime("%Y-%m-%d %H:%M")
-    
-    file = File(
-        id=file_id, 
-        title=None, 
-        content=None, 
-        datetime=file_datetime
-    )
-    
-    return file
+def create_file_service(db: Session, file_data: FileCreate) -> FileResponse:
+    """
+    파일 생성 비즈니스 로직:
+      - 전달받은 file_data를 바탕으로 DB에 파일 생성
+      - 생성된 파일 객체를 반환
+    """
+    created_file = crud_file.create_file(db, file_data.model_dump(exclude_unset=True))
+    return created_file
 
-def file_list() -> List[File]:
-    
-    return [
-        File(
-            id='test_id',
-            title='test_title',
-            content='test_content',
-            datetime='test_datetime'
-        ),
-        File(
-            id='test_id2',
-            title='test_title2',
-            content='test_content2',
-            datetime='test_datetime2'
-        )
-    ]
+def get_files_service(db: Session, skip: int = 0, limit: int = 100):
+    """
+    파일 목록 조회 비즈니스 로직:
+      - DB에서 파일 목록을 조회하여 반환
+    """
+    files = crud_file.get_files(db, skip=skip, limit=limit)
+    return files

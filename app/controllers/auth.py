@@ -10,16 +10,6 @@ from app.services.oauth import oauth
 # 모듈 단위 로거 설정
 logger = logging.getLogger(__name__)
 
-def get_db():
-    """
-    데이터베이스 세션 생성 및 반환. 세션 사용 후 자동 종료.
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 async def login_controller(request: Request) -> RedirectResponse:
     """
     OAuth 로그인 플로우 시작: 인증 제공자(Google)로 리다이렉트합니다.

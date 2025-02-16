@@ -8,3 +8,4 @@ pytest
 itsdangerous
 pydantic_settings
 discord-webhook
+hashids
