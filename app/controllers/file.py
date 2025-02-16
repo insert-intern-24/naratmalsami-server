@@ -1,8 +1,8 @@
 import logging
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.schemas.file import FileCreate, FileResponse
-from app.services.file import create_file_service, get_files_service
+from app.schemas.file import FileCreate, FileResponse, FileSave
+from app.services.file import create_file_service, get_files_service, save_file_service
 
 logger = logging.getLogger(__name__)
 
@@ -30,3 +30,15 @@ async def get_files_controller(request, db: Session, skip: int = 0, limit: int =
     except Exception as e:
         logger.error("파일 조회 중 오류: %s", e)
         raise HTTPException(status_code=500, detail="파일 조회 중 내부 오류 발생.")
+
+async def save_file_controller(request, file_data: FileSave, db: Session):
+  """
+  컨트롤러: 파일 저장 요청 처리
+    - 변경 사항들을 받아 업데이트
+  """
+  try:
+      files = save_file_service(db, file_data)
+      return files
+  except Exception as e:
+      logger.error("파일 저장 중 오류 : %s", e)
+      raise HTTPException(status_code=500, detail="파일 저장 중 내부 오류 발생.")

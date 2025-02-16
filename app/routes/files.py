@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends
 from sqlalchemy.orm import Session
-from app.schemas.file import FileCreate, FileResponse
-from app.controllers.file import create_file_controller, get_files_controller
+from app.schemas.file import FileCreate, FileResponse, FileSave
+from app.controllers.file import create_file_controller, get_files_controller, save_file_controller
 from app.database import SessionLocal, get_db
 
 router = APIRouter(
@@ -25,3 +25,11 @@ async def read_files_route(request: Request, skip: int = 0, limit: int = 100, db
     저장된 파일 목록을 조회합니다.
     """
     return await get_files_controller(request, db, skip=skip, limit=limit)
+
+@router.patch("/save", response_model=FileSave, summary="파일 저장")
+async def save_file_route(request: Request, file: FileSave, db: Session = Depends(get_db)):
+    """
+    파일 저장 요청 처리:
+      - 클라이언트가 보낸 hashed_id, title, content, datetime 등의 데이터를 받아 DB에 업데이트합니다.
+    """
+    return await save_file_controller(request, file, db)

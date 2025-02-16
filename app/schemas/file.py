@@ -4,6 +4,10 @@ from datetime import datetime
 class FileBase(BaseModel):
     title: str
     content: str
+    
+class FileSave(FileBase):
+    hashed_id: str
+    updated_at: datetime
 
 class FileCreate(FileBase):
     # 클라이언트에서 날짜를 보내는 경우
