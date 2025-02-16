@@ -1,13 +1,12 @@
 from fastapi import APIRouter, Request, Depends
+from app.database import get_db
 from app.controllers.auth import (
     login_controller,
     auth_callback_controller,
-    logout_controller,
-    get_db
+    logout_controller
 )
 
 router = APIRouter(
-    prefix="/auth",
     tags=["Authentication"],
     responses={404: {"description": "Not found"}}
 )

@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     debug: bool = False
     discord_webhook_general: str = ""
     discord_webhook_alert: str = ""
+    hashids_salt: str = "default_salt"
+    hashids_min_length: int = 6
     
     model_config = SettingsConfigDict(env_file=".env")
 

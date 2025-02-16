@@ -1,8 +1,19 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, ConfigDict
+from datetime import datetime
 
-class File(BaseModel):
-    id: str
-    title: Optional[str] = None
-    content: Optional[str] = None
-    datetime: str
+class FileBase(BaseModel):
+    title: str
+    content: str
+
+class FileCreate(FileBase):
+    # 클라이언트에서 날짜를 보내는 경우
+    created_at: datetime | None = None  
+    updated_at: datetime | None = None
+
+class FileResponse(FileBase):
+    id: int
+    hashed_id: str
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
