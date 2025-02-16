@@ -14,7 +14,7 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
 
 # API 라우터 등록
-app.include_router(ai.router)
+app.include_router(ai.router, prefix="/ai")
 app.include_router(auth_router.router, prefix="/auth")
 app.include_router(files.router, prefix="/files")
 
