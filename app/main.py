@@ -23,5 +23,6 @@ app.include_router(files.router, prefix="/files")
 async def root(request: Request):
     user = request.session.get("user")
     if user:
+        print(user.get('id'))
         return {"message": f"Welcome, {user.get('name')}"}
     return {"message": "Hello, please login."}
