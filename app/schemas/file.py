@@ -28,9 +28,13 @@ class FileSaveResponse(FileSave):
         json_encoders = {
             datetime: lambda v: v.strftime("%Y-%m-%d %H:%M") if v else None
         }
-
-class FileResponse(FileBase):
-    id: int
+    
+class FileListResponse(BaseModel):
+    title: str
+    updated_at: datetime
     hashed_id: str
 
-    model_config = ConfigDict(from_attributes=True)
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.strftime("%Y-%m-%d %H:%M") if v else None
+        }

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.schemas.file import FileResponse, FileSave, FileHash
+from app.schemas.file import FileSave, FileHash
 from app.crud import file as crud_file
 
 def create_file_service(db: Session, request) -> FileHash:
@@ -10,13 +10,21 @@ def create_file_service(db: Session, request) -> FileHash:
     """
     created_file = crud_file.create_file(db, request)
     return created_file
+  
+def get_file_service(db: Session, request, hashed_id):
+    """
+    특정 파일 조회 비즈니스 로직:
+      - DB 에서 특정 hashed_id 를 가진 파일을 조회해서 내용을 반환
+    """
+    files = crud_file.get_file(db, request, hashed_id)
+    return files
 
-def get_files_service(db: Session, skip: int = 0, limit: int = 100):
+def get_files_service(db: Session, request, skip: int = 0, limit: int = 100):
     """
     파일 목록 조회 비즈니스 로직:
       - DB에서 파일 목록을 조회하여 반환
     """
-    files = crud_file.get_files(db, skip=skip, limit=limit)
+    files = crud_file.get_files(db, request, skip=skip, limit=limit)
     return files
 
 def save_file_service(db: Session, file_data: FileSave, request):
