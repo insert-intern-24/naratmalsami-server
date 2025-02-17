@@ -32,12 +32,22 @@ def create_file(db: Session, request: Request):
 def get_files(db: Session, skip: int = 0, limit: int = 100):
     return db.query(File).offset(skip).limit(limit).all()
 
-def save_file(db: Session, hashed_id: str, file_data: dict):
+def save_file(db: Session, hashed_id: str, file_data: dict, request: Request):
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+    
+    user_id = request.session.get("user").get("id")
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="사용자 인증이 필요합니다.")
+    
     db_file = db.query(File).filter(File.hashed_id == hashed_id).first()
+    
+    if db_file.user_id != user_id:
+        raise HTTPException(status_code=403, detail="파일에 대한 권한이 없습니다.")
     
     db_file.title = file_data["title"]
     db_file.content = file_data["content"]
-    db_file.updated_at = file_data["updated_at"]
+    db_file.updated_at = now
     
     db.commit()
     db.refresh(db_file)

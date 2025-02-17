@@ -37,7 +37,7 @@ async def save_file_controller(request, file_data: FileSave, db: Session):
     - 변경 사항들을 받아 업데이트
   """
   try:
-      files = save_file_service(db, file_data)
+      files = save_file_service(db, file_data, request)
       return files
   except Exception as e:
       logger.error("파일 저장 중 오류 : %s", e)

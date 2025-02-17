@@ -19,7 +19,7 @@ def get_files_service(db: Session, skip: int = 0, limit: int = 100):
     files = crud_file.get_files(db, skip=skip, limit=limit)
     return files
 
-def save_file_service(db: Session, file_data: FileSave):
+def save_file_service(db: Session, file_data: FileSave, request):
   """
   파일 저장 비즈니스 로직:
     - 전달받은 file_data 에서 hashed_id 를 추출
@@ -27,5 +27,5 @@ def save_file_service(db: Session, file_data: FileSave):
   """
   hashed_id = file_data.hashed_id
   
-  files = crud_file.save_file(db, hashed_id, file_data.model_dump(exclude_unset=True))
+  files = crud_file.save_file(db, hashed_id, file_data.model_dump(exclude_unset=True), request)
   return files

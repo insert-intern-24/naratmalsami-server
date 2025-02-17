@@ -11,8 +11,12 @@ class FileBase(BaseModel):
 class FileHash(BaseModel):
     hashed_id: str
     
-class FileSave(FileBase):
+class FileSave(BaseModel):
+    title: str
+    content: str
     hashed_id: str
+
+class FileSaveResponse(FileSave):
     updated_at: datetime
 
 class FileResponse(FileBase):
