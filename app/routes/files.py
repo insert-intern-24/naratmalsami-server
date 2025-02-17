@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from sqlalchemy.orm import Session
-from app.schemas.file import FileCreate, FileResponse, FileSave
+from app.schemas.file import FileResponse, FileSave, FileHash
 from app.controllers.file import create_file_controller, get_files_controller, save_file_controller
 from app.database import SessionLocal, get_db
 
@@ -10,14 +10,14 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=FileResponse, summary="파일 생성")
-async def create_file_route(request: Request, file: FileCreate, db: Session = Depends(get_db)):
+@router.post("/", response_model=FileHash, summary="파일 생성")
+async def create_file_route(request: Request, db: Session = Depends(get_db)):
     """
     파일 생성 요청 처리:
-      - 클라이언트가 보낸 title, content, datetime 등의 데이터를 받아 DB에 저장하고,
+      - 클라이언트가 로그인을 한 후 POST 요청을 보낼시,
       - 내부 ID를 해시화하여 반환합니다.
     """
-    return await create_file_controller(request, file, db)
+    return await create_file_controller(request, db)
 
 @router.get("/", response_model=list[FileResponse], summary="파일 목록 조회")
 async def read_files_route(request: Request, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):

@@ -1,9 +1,24 @@
 from sqlalchemy.orm import Session
+from fastapi import Request, HTTPException
 from app.models.file import File
+from datetime import datetime, timezone
 from app.utils.hashid import encode_id
 
-def create_file(db: Session, file_data: dict):
-    db_file = File(**file_data)
+def create_file(db: Session, request: Request):
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+
+    user_id = request.session.get("user").get("id")
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="사용자 인증이 필요합니다.")
+    
+    db_file = File(
+        title="string",
+        content="content",
+        created_at=now,
+        updated_at=now,
+        user_id=user_id
+    )
     db.add(db_file)
     db.commit()
     db.refresh(db_file)
@@ -12,7 +27,7 @@ def create_file(db: Session, file_data: dict):
         db_file.hashed_id = encode_id(db_file.id)
         db.commit()
         db.refresh(db_file)
-    return db_file
+    return db_file.hashed_id
 
 def get_files(db: Session, skip: int = 0, limit: int = 100):
     return db.query(File).offset(skip).limit(limit).all()

@@ -1,5 +1,6 @@
 import uuid
 from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 from app.database import Base
 
 class User(Base):
@@ -9,3 +10,5 @@ class User(Base):
     email = Column(String(255), unique=True, index=True, nullable=False)
     name = Column(String(255))
     google_id = Column(String(255), unique=True, index=True)
+
+    files = relationship("File", back_populates="users")

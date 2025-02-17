@@ -1,14 +1,14 @@
 from sqlalchemy.orm import Session
-from app.schemas.file import FileCreate, FileResponse, FileSave
+from app.schemas.file import FileResponse, FileSave, FileHash
 from app.crud import file as crud_file
 
-def create_file_service(db: Session, file_data: FileCreate) -> FileResponse:
+def create_file_service(db: Session, request) -> FileHash:
     """
     파일 생성 비즈니스 로직:
       - 전달받은 file_data를 바탕으로 DB에 파일 생성
       - 생성된 파일 객체를 반환
     """
-    created_file = crud_file.create_file(db, file_data.model_dump(exclude_unset=True))
+    created_file = crud_file.create_file(db, request)
     return created_file
 
 def get_files_service(db: Session, skip: int = 0, limit: int = 100):
