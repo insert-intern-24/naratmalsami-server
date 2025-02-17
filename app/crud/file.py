@@ -1,11 +1,15 @@
 from sqlalchemy.orm import Session
 from fastapi import Request, HTTPException
 from app.models.file import File
+import pytz
+
 from datetime import datetime, timezone
 from app.utils.hashid import encode_id
 
+KST = pytz.timezone('Asia/Seoul')
+
 def create_file(db: Session, request: Request):
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+    now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
 
     user_id = request.session.get("user").get("id")
     
@@ -33,7 +37,7 @@ def get_files(db: Session, skip: int = 0, limit: int = 100):
     return db.query(File).offset(skip).limit(limit).all()
 
 def save_file(db: Session, hashed_id: str, file_data: dict, request: Request):
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+    now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
     
     user_id = request.session.get("user").get("id")
     
