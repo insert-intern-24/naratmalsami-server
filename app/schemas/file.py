@@ -8,6 +8,11 @@ class FileBase(BaseModel):
     updated_at: datetime
     user_id: str
     
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.strftime("%Y-%m-%d %H:%M") if v else None
+        }
+    
 class FileHash(BaseModel):
     hashed_id: str
     
@@ -18,6 +23,11 @@ class FileSave(BaseModel):
 
 class FileSaveResponse(FileSave):
     updated_at: datetime
+
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.strftime("%Y-%m-%d %H:%M") if v else None
+        }
 
 class FileResponse(FileBase):
     id: int
