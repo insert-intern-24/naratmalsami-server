@@ -1,4 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from dotenv import load_dotenv
+
+load_dotenv(".env", override=True)
 
 class Settings(BaseSettings):
     google_client_id: str
@@ -8,6 +11,8 @@ class Settings(BaseSettings):
     debug: bool = False
     discord_webhook_general: str = ""
     discord_webhook_alert: str = ""
+    hashids_salt: str = "default_salt"
+    hashids_min_length: int = 6
     
     model_config = SettingsConfigDict(env_file=".env")
 

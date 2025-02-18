@@ -55,4 +55,6 @@ jobs:
               -e MYSQL_URL=${{ secrets.MYSQL_URL }} \
               -e DISCORD_WEBHOOK_GENERAL=${{ secrets.DISCORD_WEBHOOK_GENERAL }} \
               -e DISCORD_WEBHOOK_ALERT=${{ secrets.DISCORD_WEBHOOK_ALERT }} \
+              -e HASHIDS_SALT=${{ secrets.HASHIDS_SALT }} \
+              -e HASHIDS_MIN_LENGTH=${{ secrets.HASHIDS_MIN_LENGTH }} \
               jaehwan0129/naraback:latest
