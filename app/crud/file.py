@@ -3,7 +3,6 @@ from fastapi import Request, HTTPException, Depends
 from app.models.file import File
 from app.utils.authValidator import AuthValidator
 from app.utils import datetime_now
-import pytz
 
 from app.utils.hashid import encode_id
 
