@@ -1,21 +1,16 @@
 from sqlalchemy.orm import Session
-from fastapi import Request, HTTPException
+from fastapi import Request, HTTPException, Depends
 from app.models.file import File
+from app.utils.authValidator import AuthValidator
+from app.utils import datetime_now
 import pytz
 
-from datetime import datetime, timezone
 from app.utils.hashid import encode_id
 
-KST = pytz.timezone('Asia/Seoul')
 
-def create_file(db: Session, request: Request):
-    now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
+def create_file(db: Session, request: Request, user_id: int = Depends(AuthValidator.get_user_id)):
+    now = datetime_now()
 
-    user_id = request.session.get("user").get("id")
-    
-    if not user_id:
-        raise HTTPException(status_code=401, detail="사용자 인증이 필요합니다.")
-    
     db_file = File(
         title="string",
         content="content",
@@ -33,12 +28,7 @@ def create_file(db: Session, request: Request):
         db.refresh(db_file)
     return db_file.hashed_id
 
-def get_file(db: Session, request: Request, hashed_id):
-    user_id = request.session.get("user").get("id")
-    
-    if not user_id:
-        raise HTTPException(status_code=401, detail="사용자 인증이 필요합니다.")
-    
+def get_file(db: Session, request: Request, hashed_id, user_id: int = Depends(AuthValidator.get_user_id)):
     db_file = db.query(File).filter(File.hashed_id == hashed_id).first()
     
     if db_file.user_id != user_id:
@@ -47,22 +37,12 @@ def get_file(db: Session, request: Request, hashed_id):
     return db_file
     
 
-def get_files(db: Session, request: Request, skip: int = 0, limit: int = 100):
-    user_id = request.session.get("user").get("id")
-    
-    if not user_id:
-        raise HTTPException(status_code=401, detail="사용자 인증이 필요합니다.")
-    
+def get_files(db: Session, request: Request, skip: int = 0, limit: int = 100, user_id: int = Depends(AuthValidator.get_user_id)):
     return db.query(File).filter(File.user_id == user_id).offset(skip).limit(limit).all()
 
-def save_file(db: Session, hashed_id: str, file_data: dict, request: Request):
-    now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
-    
-    user_id = request.session.get("user").get("id")
-    
-    if not user_id:
-        raise HTTPException(status_code=401, detail="사용자 인증이 필요합니다.")
-    
+def save_file(db: Session, hashed_id: str, file_data: dict, request: Request, user_id: int = Depends(AuthValidator.get_user_id)):
+    now = datetime_now()
+
     db_file = db.query(File).filter(File.hashed_id == hashed_id).first()
     
     if db_file.user_id != user_id:
@@ -76,5 +56,3 @@ def save_file(db: Session, hashed_id: str, file_data: dict, request: Request):
     db.refresh(db_file)
     
     return db_file
-    
-    
