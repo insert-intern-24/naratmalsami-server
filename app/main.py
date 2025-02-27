@@ -15,9 +15,6 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     SessionMiddleware,
     secret_key=settings.secret_key,
-    session_cookie="session",
-    samesite="lax",
-    secure=False
 )
 # CORS 미들웨어 등록
 app.add_middleware(
