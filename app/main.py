@@ -12,8 +12,14 @@ setup_logging()
 app = FastAPI(lifespan=lifespan)
 
 # 세션 미들웨어 등록
-app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
-
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.secret_key,
+    session_cookie="session",
+    domain="localhost",
+    samesite="lax",
+    secure=False
+)
 # CORS 미들웨어 등록
 app.add_middleware(
     CORSMiddleware,
