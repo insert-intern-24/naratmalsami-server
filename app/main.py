@@ -16,7 +16,7 @@ app.add_middleware(
     SessionMiddleware,
     secret_key=settings.secret_key,
     session_cookie="session",
-    domain="localhost",
+    domain=".jhnara.asuscomm.com",
     samesite="lax",
     secure=False
 )
