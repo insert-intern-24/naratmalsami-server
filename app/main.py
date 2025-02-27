@@ -15,7 +15,7 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     SessionMiddleware,
     secret_key=settings.secret_key,
-    domain="local.jhnara.asuscomm.com",
+    domain=".jhnara.asuscomm.com",
 )
 # CORS 미들웨어 등록
 app.add_middleware(
