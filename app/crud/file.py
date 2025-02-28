@@ -11,10 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def create_file(db: Session, request: Request, user_id: int):
-    logger.error("0 - Starting create_file function")
     now = datetime_now()
-    logger.error("1 - Got current datetime")
-    
     db_file = File(
         title="string",
         content="content",
@@ -23,32 +20,16 @@ def create_file(db: Session, request: Request, user_id: int):
         user_id=user_id,
         hashed_id=None
     )
-    logger.error("2 - Created File object")
     
     db.add(db_file)
-    logger.error("3 - Added File object to database session")
-    
     db.commit()
-    logger.error("4 - Committed to database")
-    
     db.refresh(db_file)
-    logger.error("5 - Refreshed database object")
     
     # 해시화된 ID가 없으면 생성 후 업데이트
     if not db_file.hashed_id:
-        logger.error("6 - No hashed_id found, generating one")
         db_file.hashed_id = encode_id(db_file.id)
-        logger.error("7 - Created hashed_id")
-        
         db.commit()
-        logger.error("8 - Committed hashed_id to database")
-        
         db.refresh(db_file)
-        logger.error("9 - Refreshed database object again")
-    else:
-        logger.error("6 - hashed_id already exists")
-        
-    logger.error("10 - Returning hashed_id")
     return db_file.hashed_id
 
 def get_file(db: Session, request: Request, hashed_id, user_id: int = Depends(AuthValidator.get_user_id)):
