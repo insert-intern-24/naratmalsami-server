@@ -7,7 +7,7 @@ from app.utils import datetime_now
 from app.utils.hashid import encode_id
 
 
-def create_file(db: Session, request: Request, user_id: int = Depends(AuthValidator.get_user_id)):
+def create_file(db: Session, user_id: int = Depends(AuthValidator.get_user_id)):
     now = datetime_now()
 
     db_file = File(
@@ -15,7 +15,8 @@ def create_file(db: Session, request: Request, user_id: int = Depends(AuthValida
         content="content",
         created_at=now,
         updated_at=now,
-        user_id=user_id
+        user_id=user_id,
+        hashed_id=None
     )
     db.add(db_file)
     db.commit()
