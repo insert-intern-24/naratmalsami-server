@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import Request, HTTPException, Depends
 from app.models.file import File
 from app.utils.authValidator import AuthValidator
-from app.utils import datetime_now
+from app.utils.datetime_now import datetime_now
 
 from app.utils.hashid import encode_id
 import logging
