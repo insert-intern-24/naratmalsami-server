@@ -1,4 +1,4 @@
-from app.schemas.ai import TextData, AIForeignData
+from app.schemas.ai import TextData, AIForeignData, AIRefineData
 from typing import List
 
 def find_foreign(data: TextData) -> List[AIForeignData]:
@@ -18,3 +18,23 @@ def find_foreign(data: TextData) -> List[AIForeignData]:
             location=[[4, 6], [20, 22]]
         )
     ]
+
+def refine_sentence(data: TextData) -> AIRefineData:
+    # 여기에 문장 다듬는 ai 함수 적고 하면 됨
+    return AIRefineData(
+        target_id="e-0",
+        error=[
+            {
+                "code": 1,
+                "origin_word": "일빠",
+                "refine_word": "첫번째",
+                "index": 4
+            },
+            {
+                "code": 1,
+                "origin_word": "핸들링",
+                "refine_word": "처리",
+                "index": 20
+            }
+        ]
+    )
