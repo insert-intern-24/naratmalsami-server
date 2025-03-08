@@ -10,3 +10,13 @@ class AIForeignData(BaseModel):
     korean: str
     setence: List[str]
     location: List[List[int]]
+
+class AIError(BaseModel):
+    code: int
+    origin_word: str
+    refine_word: str
+    index: int
+
+class AIRefineData(BaseModel):
+    target_id: str
+    error: List[AIError]

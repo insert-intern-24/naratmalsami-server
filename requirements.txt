@@ -9,3 +9,5 @@ itsdangerous
 pydantic_settings
 discord-webhook
 hashids
+pytz
+datetime

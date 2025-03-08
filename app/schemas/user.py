@@ -8,7 +8,7 @@ class UserCreate(UserBase):
     google_id: str
 
 class UserResponse(UserBase):
-    id: int
+    id: str
     google_id: str
 
     class Config:
