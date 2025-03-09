@@ -1,11 +1,8 @@
-from app.services.ai import find_foreign, refine_sentence
+from app.services.ai import refine_foreign
 from app.schemas.ai import TextData
 
-def find_foreign_controller(data: TextData):
-    return find_foreign(data)
-
-async def refine_sentence_controller(data: TextData):
+def refine_foreign_controller(data: TextData):
     """
-    요청받은 문장을 순화하여 반환합니다.
+    요청받은 문장 중 외래어를 찾고 다듬어서 변환합니다.
     """
-    return refine_sentence(data)
+    return refine_foreign(data)
