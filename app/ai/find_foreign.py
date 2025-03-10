@@ -7,8 +7,7 @@ from konlpy import jvm
 java_home = os.environ.get('JAVA_HOME')
 
 if java_home is None:
-    java_home = '/Users/kwon5700/Library/Java/JavaVirtualMachines/openjdk-23.0.1/Contents/Home' 
-    print("JAVA_HOME이 설정되지 않았습니다. 기본 경로를 사용합니다:", java_home)
+    java_home = '/Users/kwon5700/Library/Java/JavaVirtualMachines/openjdk-23.0.1/Contents/Home'
 
 os.environ['JAVA_HOME'] = java_home
 

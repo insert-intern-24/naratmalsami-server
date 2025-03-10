@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     discord_webhook_alert: str = ""
     hashids_salt: str = "default_salt"
     hashids_min_length: int = 6
+    dify_url: str
+    dify_key: str
     
     model_config = SettingsConfigDict(env_file=".env")
 

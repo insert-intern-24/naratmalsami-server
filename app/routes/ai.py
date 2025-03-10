@@ -9,5 +9,5 @@ router = APIRouter(
 )
 
 @router.post("/refine", response_model=List[AIRefineData], tags=['AIs'])
-def post_ai_refine(request: TextData):
-    return refine_foreign_controller(request)
+async def post_ai_refine(request: TextData):
+    return await refine_foreign_controller(request)
