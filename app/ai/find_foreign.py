@@ -6,9 +6,8 @@ from konlpy.tag import Hannanum
 from konlpy import jvm
 java_home = os.environ.get('JAVA_HOME')
 
-if java_home is None:
-    java_home = '/Users/kwon5700/Library/Java/JavaVirtualMachines/openjdk-23.0.1/Contents/Home'
-
+java_home = os.environ.get('JAVA_HOME', '/usr/lib/jvm/java-21-openjdk-amd64')
+model_path = os.environ.get('MODEL_PATH', '/app/ai/naratmalsami-ai.keras')
 os.environ['JAVA_HOME'] = java_home
 
 from tensorflow.keras.models import load_model
@@ -34,7 +33,7 @@ jamo_dict = {
     'u': 73, 'v': 74, 'w': 75, 'x': 76, 'y': 77, 'z': 78, '.': 79
 }
 
-model = load_model('/Users/kwon5700/Desktop/naratmalsami-server/app/ai/naratmalsami-ai.keras')
+model = load_model(model_path)
 
 def find_words(input_data: TextData):
     
