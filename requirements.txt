@@ -11,3 +11,9 @@ discord-webhook
 hashids
 pytz
 datetime
+numpy
+python-dotenv
+konlpy
+tensorflow
+jamo
+beautifulsoup4

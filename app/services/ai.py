@@ -1,40 +1,55 @@
-from app.schemas.ai import TextData, AIForeignData, AIRefineData
+from app.schemas.ai import TextData, AIRefineData
 from typing import List
+from app.ai.find_foreign import find_words
+from bs4 import BeautifulSoup
+from app.ai.dify import dify
 
-def find_foreign(data: TextData) -> List[AIForeignData]:
-    # 여기에 외래어 구별 ai 랑 다듬은 말 가져오는 함수 적고 하면 됨
+async def refine_foreign(data: TextData) -> List[AIRefineData]:
+    input_data = data.title, ' '.join(str(item) for item in data.content)
+    word_list = []
+    foreign_dict = dict()
     
-    return [
-        AIForeignData(
-            foreign="일빠",
-            korean="첫번째",
-            setence=["일빠 첫번째로 도착했어", "일빠 첫번째로 밥 먹을래"],
-            location=[[4, 6], [20, 22]]
-        ),
-        AIForeignData(
-            foreign="일빠",
-            korean="첫번째",
-            setence=["일빠 첫번째로 도착했어", "일빠 첫번째로 밥 먹을래"],
-            location=[[4, 6], [20, 22]]
-        )
-    ]
-
-def refine_sentence(data: TextData) -> AIRefineData:
-    # 여기에 문장 다듬는 ai 함수 적고 하면 됨
-    return AIRefineData(
-        target_id="e-0",
-        error=[
+    for html in input_data:
+        soup = BeautifulSoup(html, "html.parser")
+        
+        word_list.append(soup.get_text())
+        
+    foreign_data = find_words(word_list)
+    
+    for html in input_data:
+        soup = BeautifulSoup(html, "html.parser")
+        
+        for word in foreign_data:
+            find_sentences = soup.find_all(text=lambda text: word in text)
+            
+            for find_sentence in find_sentences:
+                parent_tag = find_sentence.find_parent()
+                id = parent_tag.get("id")
+                sentence = find_sentence.strip()
+            
+                if id in foreign_dict.keys() and foreign_dict[id]['sentence'] == sentence:
+                    foreign_dict[id]['origin_word'].append(word)
+                else:
+                    foreign_dict[id] = {"origin_word": [word], "sentence": sentence}
+    
+    responses = []
+    
+    for key in foreign_dict.keys():
+        response = await dify(foreign_dict[key])
+        
+        responses.append(
             {
-                "code": 1,
-                "origin_word": "일빠",
-                "refine_word": "첫번째",
-                "index": 4
-            },
-            {
-                "code": 1,
-                "origin_word": "핸들링",
-                "refine_word": "처리",
-                "index": 20
+                "target_id": key,
+                "error": [
+                    {
+                        "code": 1,
+                        "origin_word": item,
+                        "refine_word": response[item],
+                        "index": foreign_dict[key]['sentence'].find(item)
+                    }     
+                    for item in response.keys()                 
+                ]
             }
-        ]
-    )
+        )
+        
+    return responses
