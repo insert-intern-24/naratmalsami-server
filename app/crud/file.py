@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 def create_file(db: Session, request: Request, user_id: int):
     now = datetime_now()
     db_file = File(
-        title="string",
-        content="content",
+        title="제목",
+        content="<p>환영합니다.</p>",
         created_at=now,
         updated_at=now,
         user_id=user_id,
