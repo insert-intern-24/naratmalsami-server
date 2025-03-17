@@ -27,7 +27,8 @@ jobs:
           context: .
           push: true
           tags: galbimandu/naraback:latest
-          platforms: linux/amd64  # 특정 플랫폼에서만 빌드
+          # platforms: linux/amd64  # 특정 플랫폼에서만 빌드
+          load: true
 
   deploy:
     runs-on: ubuntu-latest
