@@ -38,7 +38,7 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.REMOTE_PORT }}
+          # port: ${{ secrets.REMOTE_PORT }}
           script: |
             echo "최신 Docker 이미지를 Pull합니다..."
             docker pull galbimandu/naraback:latest
