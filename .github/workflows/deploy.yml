@@ -55,17 +55,26 @@ jobs:
           echo "  User ${{ secrets.REMOTE_USER }}" >> ~/.ssh/config
           echo "  StrictHostKeyChecking no" >> ~/.ssh/config
       
+      - name: Debug SSH Connection 🔍
+        run: |
+          echo "🛠️ SSH 키 파일 확인"
+          ls -al ~/.ssh
+          echo "🛠️ SSH 설정 파일 확인"
+          cat ~/.ssh/config
+          echo "🛠️ 서버의 authorized_keys 확인"
+          ssh -v ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "cat ~/.ssh/authorized_keys"
+
       - name: Deploy via Cloudflare Zero Trust
         run: |
-          # Test SSH connection
-          ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "echo 'Connection successful!'"
+          # SSH 연결 디버깅 (자세한 로그 확인)
+          ssh -v ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "echo '✅ Connection successful!'"
           
           # Run deployment commands
-          ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            echo "최신 Docker 이미지를 Pull합니다..."
+          ssh -v ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+            echo "🚀 최신 Docker 이미지를 Pull합니다..."
             docker pull galbimandu/naraback:latest
-            echo "기존 컨테이너가 있다면 중지 및 삭제합니다..."
+            echo "🛑 기존 컨테이너가 있다면 중지 및 삭제합니다..."
             docker stop naraback-container || true
             docker rm naraback-container || true
-            # Add additional deployment commands here as needed
+            echo "✅ 배포 완료!"
           EOF
