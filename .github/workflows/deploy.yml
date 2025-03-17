@@ -26,7 +26,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: galbimandu/naraback:latest
+          tags: galbimandu/nara.backend:latest
 
   deploy:
     runs-on: ubuntu-latest
