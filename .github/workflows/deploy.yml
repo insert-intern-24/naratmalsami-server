@@ -52,7 +52,7 @@ jobs:
 
       - name: 원격 서버에 배포
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@ssh.example.com << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
             echo "최신 Docker 이미지를 Pull합니다..."
             docker pull galbimandu/naraback:latest
 
