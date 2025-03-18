@@ -54,18 +54,18 @@ jobs:
       - name: 원격 서버에 배포
         uses: and-fm/cloudflared-ssh-action@v3.1.2
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ssh.example.com
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.REMOTE_USER }}
           private_key_value: ${{ secrets.SSH_PRIVATE_KEY }}
           commands: |
             echo "최신 Docker 이미지를 Pull합니다..."
             docker pull galbimandu/naraback:latest
-
+            
             echo "기존 컨테이너가 있다면 중지 및 삭제합니다..."
             docker stop naraback-container || true
             docker rm naraback-container || true
-
+            
             echo "새 컨테이너를 시작합니다..."
             docker run -d -p 80:80 --name naraback-container \
               -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
