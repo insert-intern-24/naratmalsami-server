@@ -41,7 +41,7 @@ jobs:
 
       - name: SSH 구성 업데이트
         run: |
-          echo "Host ssh.example.com" >> ~/.ssh/config
+          echo "Host ${{ secrets.REMOTE_HOST }}" >> ~/.ssh/config
           echo "  ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
           chmod 600 ~/.ssh/config
 
