@@ -42,7 +42,7 @@ jobs:
       - name: SSH 구성 업데이트
         run: |
           mkdir -p ~/.ssh
-          echo "Host ssh.example.com" >> ~/.ssh/config
+          echo "Host ${{ secrets.SSH_HOST }}" >> ~/.ssh/config
           echo "  ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
           chmod 600 ~/.ssh/config
 
@@ -54,7 +54,7 @@ jobs:
       - name: 원격 서버에 배포
         uses: and-fm/cloudflared-ssh-action@v3.1.2
         with:
-          host: ssh.example.com
+          host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.REMOTE_USER }}
           private_key_value: ${{ secrets.SSH_PRIVATE_KEY }}
