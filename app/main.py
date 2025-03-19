@@ -24,7 +24,7 @@ app.add_middleware(
 app.add_middleware(
     SessionMiddleware,
     secret_key=settings.secret_key,
-    domain=".naraback.madac.me",
+    domain=".madac.me",
 )
 
 # API 라우터 등록
