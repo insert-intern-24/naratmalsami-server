@@ -38,12 +38,16 @@ jobs:
           sudo dpkg -i cloudflared.deb
           sudo apt-get update
           sudo apt-get install -f
-
+  
       - name: SSH 구성 업데이트
         run: |
+          # Cloudflared의 실제 경로를 추출합니다.
+          CLOUDFLARED_PATH=$(which cloudflared)
+          echo "Cloudflared 경로: ${CLOUDFLARED_PATH}"
+          
           mkdir -p ~/.ssh
           echo "Host ${{ secrets.SSH_HOST }}" >> ~/.ssh/config
-          echo "  ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h" >> ~/.ssh/config
+          echo "  ProxyCommand ${CLOUDFLARED_PATH} access ssh --hostname %h" >> ~/.ssh/config
           chmod 600 ~/.ssh/config
 
       - name: SSH 키 설정
