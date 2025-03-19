@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
+      
       - name: 원격 서버에 배포
         uses: and-fm/cloudflared-ssh-action@v3.1.2
         with:
