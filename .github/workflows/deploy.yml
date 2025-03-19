@@ -61,6 +61,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.REMOTE_USER }}
+          private_key_filename: id_rsa       
           private_key_value: ${{ secrets.SSH_PRIVATE_KEY }}
           commands: |
             echo "최신 Docker 이미지를 Pull합니다..."
