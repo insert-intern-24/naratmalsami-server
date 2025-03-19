@@ -11,3 +11,4 @@ discord-webhook
 hashids
 pytz
 datetime
+pymysql
