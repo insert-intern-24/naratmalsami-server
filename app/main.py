@@ -11,12 +11,6 @@ setup_logging()
 
 app = FastAPI(lifespan=lifespan)
 
-# 세션 미들웨어 등록
-app.add_middleware(
-    SessionMiddleware,
-    secret_key=settings.secret_key,
-    domain=".madac.me",
-)
 # CORS 미들웨어 등록
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +18,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+# 세션 미들웨어 등록
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.secret_key,
+    domain=".madac.me",
 )
 
 # API 라우터 등록
