@@ -20,7 +20,7 @@ app.add_middleware(
 # CORS 미들웨어 등록
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], 
+    allow_origins=['http://localhost:5173', 'https://localhost:5173'], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
