@@ -25,6 +25,7 @@ app.add_middleware(
     SessionMiddleware,
     secret_key=settings.secret_key,
     domain=".madac.me",
+    same_site="none",
 )
 
 # API 라우터 등록
