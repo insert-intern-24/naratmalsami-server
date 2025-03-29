@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     secret_key: str
     mysql_url: str
     debug: bool = False
-    is_dev: bool
+    is_dev: bool = True
     discord_webhook_general: str = ""
     discord_webhook_alert: str = ""
     hashids_salt: str = "default_salt"
